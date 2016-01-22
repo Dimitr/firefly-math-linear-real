@@ -46,6 +46,15 @@ public class ArrayMatrix implements Matrix, Serializable {
 	private static final long serialVersionUID = 3474194863519362457L;
 
 	/**
+	 * Returns matrix entries as a (newly allocated) two-dimensional array.
+	 *
+	 * @return 2-dimensional array of entries.
+	 */
+	public double[][] toArray() {
+		return data;
+	};
+
+	/**
 	 * Returns matrix entries as a two-dimensional array.
 	 *
 	 * @return 2-dimensional array of entries

@@ -21,6 +21,13 @@ import com.fireflysemantics.math.exception.MathException;
 public interface Matrix {
 
 	/**
+	 * Returns matrix entries as a (newly allocated) two-dimensional array.
+	 *
+	 * @return 2-dimensional array of entries.
+	 */
+	double[][] toArray();
+
+	/**
 	 * Is this a square matrix?
 	 * 
 	 * @return true if the matrix is square (rowDimension == columnDimension)
