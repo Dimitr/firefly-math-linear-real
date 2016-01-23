@@ -19,13 +19,13 @@ import static org.junit.Assert.assertSame;
 
 import org.junit.Test;
 
-public class ArrayMatrixTest {
+public class SimpleMatrixTest {
 
 	@Test
 	public void constructor() {
 		double[][] data = { { 1, 2 }, { 3, 4 } };
 
-		ArrayMatrix matrix = new ArrayMatrix(data);
+		SimpleMatrix matrix = new SimpleMatrix(data);
 
 		assertSame(data, matrix.getData());
 		assertSame(data[0], matrix.getData()[0]);

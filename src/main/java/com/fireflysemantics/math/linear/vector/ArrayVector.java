@@ -18,17 +18,19 @@ import static com.fireflysemantics.math.exception.ExceptionFactory.checkIndexOut
 
 import com.fireflysemantics.math.linear.vector.interfaces.Vector;
 
-import lombok.Getter;
-
 /**
  * Implements {@link interfaces.Vector} backed by double[].
  */
 public class ArrayVector implements Vector {
 
+	/** {@inheritDoc */
+	public double[] toArray() {
+		return data.clone();
+	}
+
 	/**
 	 * @return the entries of the vector
 	 */
-	@Getter
 	private double[] data;
 
 	/**

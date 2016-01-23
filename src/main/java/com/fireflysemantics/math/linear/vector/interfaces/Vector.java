@@ -22,6 +22,13 @@ import com.fireflysemantics.math.exception.MathException;
 public interface Vector {
 
 	/**
+	 * Returns the vector entries as a (newly allocated) one-dimensional array.
+	 *
+	 * @return 1-dimensional array of entries.
+	 */
+	double[] toArray();
+
+	/**
 	 * Returns the size of the vector.
 	 *
 	 * @return the size of this vector.

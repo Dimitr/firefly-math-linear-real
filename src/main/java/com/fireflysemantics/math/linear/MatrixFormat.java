@@ -27,7 +27,7 @@ import java.util.Locale;
 import com.fireflysemantics.math.exception.ExceptionKeys;
 import com.fireflysemantics.math.exception.MathException;
 import com.fireflysemantics.math.format.CompositeFormat;
-import com.fireflysemantics.math.linear.matrix.ArrayMatrix;
+import com.fireflysemantics.math.linear.matrix.SimpleMatrix;
 
 import lombok.Getter;
 
@@ -242,7 +242,7 @@ public class MatrixFormat {
 	 *            RealMatrix object to format.
 	 * @return a formatted matrix.
 	 */
-	public String format(ArrayMatrix m) {
+	public String format(SimpleMatrix m) {
 		return format(m, new StringBuffer(), new FieldPosition(0)).toString();
 	}
 
@@ -258,7 +258,7 @@ public class MatrixFormat {
 	 *            offsets of the alignment field
 	 * @return the value passed in as toAppendTo.
 	 */
-	public StringBuffer format(ArrayMatrix matrix, StringBuffer toAppendTo, FieldPosition pos) {
+	public StringBuffer format(SimpleMatrix matrix, StringBuffer toAppendTo, FieldPosition pos) {
 
 		pos.setBeginIndex(0);
 		pos.setEndIndex(0);

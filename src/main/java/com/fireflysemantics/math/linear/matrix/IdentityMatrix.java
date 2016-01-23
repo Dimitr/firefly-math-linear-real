@@ -49,7 +49,7 @@ public class IdentityMatrix implements Matrix {
 	private int columnDimension;
 
 	/**
-	 * Create a new ArrayMatrix with the supplied row and column dimensions. All
+	 * Create a new SimpleMatrix with the supplied row and column dimensions. All
 	 * matrix entries will be initialized to their java default of 0d.
 	 *
 	 * @param dimension

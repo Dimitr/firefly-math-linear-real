@@ -14,7 +14,7 @@
 
 package com.fireflysemantics.math.linear;
 
-import com.fireflysemantics.math.linear.matrix.ArrayMatrix;
+import com.fireflysemantics.math.linear.matrix.SimpleMatrix;
 import com.fireflysemantics.math.linear.matrix.interfaces.Matrix;
 
 /** Factory for matrices */
@@ -40,9 +40,9 @@ public class MatrixFactory {
 	 * @see #createRealMatrix(double[][])
 	 */
 	public static Matrix create(final int rows, final int columns) {
-		return new ArrayMatrix(rows, columns);
+		return new SimpleMatrix(rows, columns);
 		// TODO Fix if BlockMatrix support is implemented
-		// return (rows * columns <= 4096) ? new ArrayMatrix(rows, columns) :
+		// return (rows * columns <= 4096) ? new SimpleMatrix(rows, columns) :
 		// new BlockMatrix(rows, columns);
 	}
 

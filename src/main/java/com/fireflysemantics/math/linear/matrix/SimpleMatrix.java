@@ -37,10 +37,10 @@ import lombok.Getter;
  * construction and access to a retangular array of primitive double numbers, as
  * well as matrix meta data, such as the length of the row dimension.
  *
- * @see #ArrayMatrix(double[][] data, UnaryOperator<double[][]> process) for
+ * @see #SimpleMatrix(double[][] data, UnaryOperator<double[][]> process) for
  *      more information on safe construction.
  */
-public class ArrayMatrix implements Matrix, Serializable {
+public class SimpleMatrix implements Matrix, Serializable {
 
 	/** Serializable version identifier. */
 	private static final long serialVersionUID = 3474194863519362457L;
@@ -75,7 +75,7 @@ public class ArrayMatrix implements Matrix, Serializable {
 	private int columnDimension;
 
 	/**
-	 * Create a new ArrayMatrix with the supplied row and column dimensions. All
+	 * Create a new SimpleMatrix with the supplied row and column dimensions. All
 	 * matrix entries will be initialized to their java default of 0d.
 	 *
 	 * @param rowDimension
@@ -86,7 +86,7 @@ public class ArrayMatrix implements Matrix, Serializable {
 	 *             Of type {code NOT_STRICTLY_POSITIVE} if the row or column
 	 *             dimension is not positive.
 	 */
-	public ArrayMatrix(final int rowDimension, final int columnDimension) throws MathException {
+	public SimpleMatrix(final int rowDimension, final int columnDimension) throws MathException {
 		checkNotStrictlyPositive(ROW_DIMENSION, rowDimension);
 		checkNotStrictlyPositive(COLUMN_DIMENSION, columnDimension);
 		this.rowDimension = rowDimension;
@@ -95,15 +95,15 @@ public class ArrayMatrix implements Matrix, Serializable {
 	}
 
 	/**
-	 * Creates a new {@code ArrayMatrix} that references the {@code data}
+	 * Creates a new {@code SimpleMatrix} that references the {@code data}
 	 * argument.
 	 * <p>
-	 * To both copy and check the matrix call @{code new ArrayMatrix(data,
-	 * ArrayMatrix.copyAndCheck());}
+	 * To both copy and check the matrix call @{code new SimpleMatrix(data,
+	 * SimpleMatrix.copyAndCheck());}
 	 * </p>
 	 * <p>
 	 * To only check row that row length are all equal call @{code new
-	 * ArrayMatrix(data, ArrayMatrix.check());}.
+	 * SimpleMatrix(data, SimpleMatrix.check());}.
 	 * </p>
 	 * 
 	 * @param data
@@ -114,9 +114,9 @@ public class ArrayMatrix implements Matrix, Serializable {
 	 * @throws MathException
 	 *             Of type {@code NO_DATA} if {@code data} row or column
 	 *             dimension is zero.
-	 * @see #ArrayMatrix(double[][] data, UnaryOperator<double[][]> process)
+	 * @see #SimpleMatrix(double[][] data, UnaryOperator<double[][]> process)
 	 */
-	public ArrayMatrix(final double[][] data) throws MathException {
+	public SimpleMatrix(final double[][] data) throws MathException {
 		checkNullArgument(VALUE, data);
 		this.rowDimension = data.length;
 		checkNoData(ROW_DIMENSION, this.rowDimension);
@@ -126,7 +126,7 @@ public class ArrayMatrix implements Matrix, Serializable {
 	}
 
 	/**
-	 * Create a new ArrayMatrix using the input array processed by the
+	 * Create a new SimpleMatrix using the input array processed by the
 	 * {@code Function} argument.
 	 *
 	 * @param data
@@ -141,9 +141,9 @@ public class ArrayMatrix implements Matrix, Serializable {
 	 *             Of type {@code NULL_ARGUMENT} if {@code data} is {@code null}
 	 *             .
 	 * 
-	 * @see #ArrayMatrix(double[][])
+	 * @see #SimpleMatrix(double[][])
 	 */
-	protected ArrayMatrix(final double[][] data, UnaryOperator<double[][]> operator) throws MathException {
+	protected SimpleMatrix(final double[][] data, UnaryOperator<double[][]> operator) throws MathException {
 		checkNullArgument(VALUE, data);
 		this.rowDimension = data.length;
 		checkNoData(ROW_DIMENSION, this.rowDimension);
@@ -158,10 +158,10 @@ public class ArrayMatrix implements Matrix, Serializable {
 		// TODO revert once this is fixed:
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=485593
 		// return new
-		// ArrayMatrix(Arrays.stream(this.getData()).map(double[]::clone).toArray(double[][]::new));
+		// SimpleMatrix(Arrays.stream(this.getData()).map(double[]::clone).toArray(double[][]::new));
 		double[][] copy =
 				Arrays.stream(this.getData()).map(a -> (double[]) a.clone()).toArray(double[][]::new);
-		return new ArrayMatrix(copy);
+		return new SimpleMatrix(copy);
 	}
 
 	/** {@inheritDoc} */

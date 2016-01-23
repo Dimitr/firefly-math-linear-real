@@ -42,94 +42,94 @@ public class MatrixOperations {
 
 	/**
 	 * Returns the {@link BiFunction} that performs the scalar addtion of
-	 * {@code d} to the {@link ArrayMatrix} {@code m}.
+	 * {@code d} to the {@link SimpleMatrix} {@code m}.
 	 *
 	 * @return the {@link BiFunction} that performs the scalar addition.
 	 */
-	public static BiFunction<ArrayMatrix, Double, ArrayMatrix> addScalar() {
+	public static BiFunction<SimpleMatrix, Double, SimpleMatrix> addScalar() {
 		return addScalar(false);
 	}
 
 	/**
 	 * Returns the {@link BiFunction} that performs the scalar addtion of
-	 * {@code d} to the {@link ArrayMatrix} {@code m}.
+	 * {@code d} to the {@link SimpleMatrix} {@code m}.
 	 *
 	 * @param parallel
 	 *            Whether to perform the operation concurrently.
 	 * 
 	 * @return the {@link BiFunction} that performs the scalar addition.
 	 */
-	public static BiFunction<ArrayMatrix, Double, ArrayMatrix> addScalar(boolean parallel) {
+	public static BiFunction<SimpleMatrix, Double, SimpleMatrix> addScalar(boolean parallel) {
 		return (m, d) -> {
-			stream = Arrays.stream(m.getData());
+			stream = Arrays.stream(m.toArray());
 			stream = parallel ? stream.parallel() : stream;
 			final double[][] result = stream.map(r -> range(0, m.getColumnDimension()).mapToDouble(c -> r[c]
 					+ d).toArray()).toArray(double[][]::new);
-			return new ArrayMatrix(result);
+			return new SimpleMatrix(result);
 		};
 	}
 
 	/**
 	 * Returns the {@link BiFunction} that performs the scalar subtraction of
-	 * {@code d} from the {@link ArrayMatrix} {@code m}.
+	 * {@code d} from the {@link SimpleMatrix} {@code m}.
 	 *
 	 * @return the {@link BiFunction} that performs the scalar subtraction.
 	 */
-	public static BiFunction<ArrayMatrix, Double, ArrayMatrix> subtractScalar() {
+	public static BiFunction<SimpleMatrix, Double, SimpleMatrix> subtractScalar() {
 		return subtractScalar(false);
 	}
 
 	/**
 	 * Returns the {@link BiFunction} that performs the scalar subtraction of
-	 * {@code d} from the {@link ArrayMatrix} {@code m}.
+	 * {@code d} from the {@link SimpleMatrix} {@code m}.
 	 *
 	 * @param parallel
 	 *            Whether to perform the operation concurrently.
 	 * 
 	 * @return the {@link BiFunction} that performs the scalar subtraction.
 	 */
-	public static BiFunction<ArrayMatrix, Double, ArrayMatrix> subtractScalar(boolean parallel) {
+	public static BiFunction<SimpleMatrix, Double, SimpleMatrix> subtractScalar(boolean parallel) {
 		return (m, d) -> {
-			stream = Arrays.stream(m.getData());
+			stream = Arrays.stream(m.toArray());
 			stream = parallel ? stream.parallel() : stream;
 			final double[][] result = stream.map(r -> range(0, m.getColumnDimension()).mapToDouble(c -> r[c]
 					- d).toArray()).toArray(double[][]::new);
-			return new ArrayMatrix(result);
+			return new SimpleMatrix(result);
 		};
 	}
 
 	/**
 	 * Returns the {@link BiFunction} that performs the scalar multiplication of
-	 * {@code d} times the {@link ArrayMatrix} {@code m}.
+	 * {@code d} times the {@link SimpleMatrix} {@code m}.
 	 *
 	 * @return the {@link BiFunction} that performs the scalar multiplication.
 	 */
-	public static BiFunction<ArrayMatrix, Double, ArrayMatrix> multiplyScalar() {
+	public static BiFunction<SimpleMatrix, Double, SimpleMatrix> multiplyScalar() {
 		return multiplyScalar(false);
 	}
 
 	/**
 	 * Returns the {@link BiFunction} that performs the scalar multiplication of
-	 * {@code d} times the {@link ArrayMatrix} {@code m}.
+	 * {@code d} times the {@link SimpleMatrix} {@code m}.
 	 *
 	 * @param parallel
 	 *            Whether to perform the operation concurrently.
 	 * 
 	 * @return the {@link BiFunction} that performs the scalar multiplication.
 	 */
-	public static BiFunction<ArrayMatrix, Double, ArrayMatrix> multiplyScalar(boolean parallel) {
+	public static BiFunction<SimpleMatrix, Double, SimpleMatrix> multiplyScalar(boolean parallel) {
 		return (m, d) -> {
-			stream = Arrays.stream(m.getData());
+			stream = Arrays.stream(m.toArray());
 			stream = parallel ? stream.parallel() : stream;
 			final double[][] result = stream.map(r -> range(0, m.getColumnDimension()).mapToDouble(c -> r[c]
 					* d).toArray()).toArray(double[][]::new);
-			return new ArrayMatrix(result);
+			return new SimpleMatrix(result);
 		};
 	}
 
 	/**
-	 * Returns the {@link BinaryOperator} that adds the {@link ArrayMatrix}
-	 * {@code m2} to the {@link ArrayMatrix} {@code m1}.
+	 * Returns the {@link BinaryOperator} that adds the {@link SimpleMatrix}
+	 * {@code m2} to the {@link SimpleMatrix} {@code m1}.
 	 *
 	 * @throws MathException
 	 *             Of type {@code MATRIX_DIMENSION_MISMATCH__ADDITION} if
@@ -137,13 +137,13 @@ public class MatrixOperations {
 	 * 
 	 * @return the {@link BinaryOperator} that performs the addition.
 	 */
-	public static BinaryOperator<ArrayMatrix> add() {
+	public static BinaryOperator<SimpleMatrix> add() {
 		return add(false);
 	}
 
 	/**
-	 * Returns the {@link BinaryOperator} that adds the {@link ArrayMatrix}
-	 * {@code m2} to the {@link ArrayMatrix} {@code m1.
+	 * Returns the {@link BinaryOperator} that adds the {@link SimpleMatrix}
+	 * {@code m2} to the {@link SimpleMatrix} {@code m1.
 	 *
 	 * @param parallel
 	 *            Whether to perform the operation concurrently.
@@ -155,12 +155,12 @@ public class MatrixOperations {
 	 * @return the {@link BinaryOperator} that performs the addition.
 	 * 
 	 */
-	public static BinaryOperator<ArrayMatrix> add(boolean parallel) {
+	public static BinaryOperator<SimpleMatrix> add(boolean parallel) {
 		return (m1, m2) -> {
 			checkAdditionCompatible(m1, m2);
 
-			double[][] a1 = m1.getData();
-			double[][] a2 = m2.getData();
+			double[][] a1 = m1.toArray();
+			double[][] a2 = m2.toArray();
 
 			IntStream stream = range(0, m1.getRowDimension());
 			stream = parallel ? stream.parallel() : stream;
@@ -168,13 +168,13 @@ public class MatrixOperations {
 			double[][] result =
 					stream.mapToObj(r -> range(0, m1.getColumnDimension()).mapToDouble(c -> a1[r][c]
 							+ a2[r][c]).toArray()).toArray(double[][]::new);
-			return new ArrayMatrix(result);
+			return new SimpleMatrix(result);
 		};
 	}
 
 	/**
-	 * Returns the {@link BinaryOperator} that subtracts the {@link ArrayMatrix}
-	 * {@code m2} from the {@link ArrayMatrix} {@code m1}.
+	 * Returns the {@link BinaryOperator} that subtracts the {@link SimpleMatrix}
+	 * {@code m2} from the {@link SimpleMatrix} {@code m1}.
 	 *
 	 * @throws MathException
 	 *             Of type {@code MATRIX_DIMENSION_MISMATCH__SUBTRACTION} if
@@ -182,13 +182,13 @@ public class MatrixOperations {
 	 * 
 	 * @return the {@link BinaryOperator} that performs the subtraction.
 	 */
-	public static BinaryOperator<ArrayMatrix> subtract() {
+	public static BinaryOperator<SimpleMatrix> subtract() {
 		return subtract(false);
 	}
 
 	/**
-	 * Returns the {@link BinaryOperator} that subtracts the {@link ArrayMatrix}
-	 * {@code m2} from the {@link ArrayMatrix} {@code m1}.
+	 * Returns the {@link BinaryOperator} that subtracts the {@link SimpleMatrix}
+	 * {@code m2} from the {@link SimpleMatrix} {@code m1}.
 	 *
 	 * @param parallel
 	 *            Whether to perform the operation concurrently.
@@ -200,12 +200,12 @@ public class MatrixOperations {
 	 * @return the {@link BinaryOperator} that performs the subtraction.
 	 * 
 	 */
-	public static BinaryOperator<ArrayMatrix> subtract(boolean parallel) {
+	public static BinaryOperator<SimpleMatrix> subtract(boolean parallel) {
 		return (m1, m2) -> {
 			checkSubtractionCompatible(m1, m2);
 
-			double[][] a1 = m1.getData();
-			double[][] a2 = m2.getData();
+			double[][] a1 = m1.toArray();
+			double[][] a2 = m2.toArray();
 
 			IntStream stream = range(0, m1.getRowDimension());
 			stream = parallel ? stream.parallel() : stream;
@@ -214,13 +214,13 @@ public class MatrixOperations {
 					stream.mapToObj(r -> range(0, m1.getColumnDimension()).mapToDouble(c -> a1[r][c]
 							- a2[r][c]).toArray()).toArray(double[][]::new);
 
-			return new ArrayMatrix(result);
+			return new SimpleMatrix(result);
 		};
 	}
 
 	/**
-	 * Returns a {@link BinaryOperator} that multiplies {@link ArrayMatrix}
-	 * {@code m1} times {@link ArrayMatrix} {@code m2}.
+	 * Returns a {@link BinaryOperator} that multiplies {@link SimpleMatrix}
+	 * {@code m1} times {@link SimpleMatrix} {@code m2}.
 	 * 
 	 * Example {@code multiply().apply(m1, m2);}
 	 * 
@@ -230,13 +230,13 @@ public class MatrixOperations {
 	 * 
 	 * @return the {@link BinaryOperator} that performs the multiplication.
 	 */
-	public static BinaryOperator<ArrayMatrix> multiply() {
+	public static BinaryOperator<SimpleMatrix> multiply() {
 		return multiply(false);
 	}
 
 	/**
-	 * Returns a {@link BinaryOperator} that multiplies {@link ArrayMatrix}
-	 * {@code m1} times {@link ArrayMatrix} {@code m2} (m1 X m2).
+	 * Returns a {@link BinaryOperator} that multiplies {@link SimpleMatrix}
+	 * {@code m1} times {@link SimpleMatrix} {@code m2} (m1 X m2).
 	 * 
 	 * Example {@code multiply(true).apply(m1, m2);}
 	 * 
@@ -249,13 +249,13 @@ public class MatrixOperations {
 	 * 
 	 * @return the {@link BinaryOperator} that performs the operation.
 	 */
-	public static BinaryOperator<ArrayMatrix> multiply(boolean parallel) {
+	public static BinaryOperator<SimpleMatrix> multiply(boolean parallel) {
 
 		return (m1, m2) -> {
 			checkMultiplicationCompatible(m1, m2);
 
-			double[][] a1 = m1.getData();
-			double[][] a2 = m2.getData();
+			double[][] a1 = m1.toArray();
+			double[][] a2 = m2.toArray();
 
 			Stream<double[]> stream = Arrays.stream(a1);
 			stream = parallel ? stream.parallel() : stream;
@@ -266,13 +266,13 @@ public class MatrixOperations {
 									* a2[j][i]).sum())
 							.toArray()).toArray(double[][]::new);
 
-			return new ArrayMatrix(result);
+			return new SimpleMatrix(result);
 		};
 	}
 
 	/**
 	 * Returns the {@link BiFunction} that multiplies the the
-	 * {@link ArrayMatrix} {@code m} times the {@link ArrayVector} {@code v}.
+	 * {@link SimpleMatrix} {@code m} times the {@link ArrayVector} {@code v}.
 	 * 
 	 * The operation views the {@code v} vector as a N X 1 Matrix.
 	 *
@@ -285,22 +285,22 @@ public class MatrixOperations {
 	 * 
 	 * @return the {@link BiFunction} that performs operation.
 	 */
-	public static BiFunction<ArrayMatrix, ArrayVector, ArrayVector> operate(boolean parallel) {
+	public static BiFunction<SimpleMatrix, ArrayVector, ArrayVector> operate(boolean parallel) {
 		return (m, v) -> {
 			checkMultiplicationCompatible(m, v);
 
-			stream = Arrays.stream(m.getData());
+			stream = Arrays.stream(m.toArray());
 			stream = parallel ? stream.parallel() : stream;
 			double[] result =
 					stream.mapToDouble(row -> IntStream.range(0, row.length).mapToDouble(col -> row[col]
-							* v.getData()[col]).sum()).toArray();
+							* v.toArray()[col]).sum()).toArray();
 			return new ArrayVector(result);
 		};
 	}
 
 	/**
 	 * Returns the {@link BiFunction} that multiplies the {@link ArrayVector}
-	 * {@code v} times the {@link ArrayMatrix} {@code m}.
+	 * {@code v} times the {@link SimpleMatrix} {@code m}.
 	 * 
 	 * The operation views the {@code v} vector as a N x 1 Matrix.
 	 *
@@ -313,14 +313,14 @@ public class MatrixOperations {
 	 * 
 	 * @return the {@link BiFunction} that performs operation.
 	 */
-	public static BiFunction<ArrayVector, ArrayMatrix, ArrayVector> preOperate(boolean parallel) {
+	public static BiFunction<ArrayVector, SimpleMatrix, ArrayVector> preOperate(boolean parallel) {
 		return (v, m) -> {
 			LinearExceptionFactory.checkMultiplicationCompatible(v, m);
 
 			double[] result =
 					range(0, m.getColumnDimension())
-							.mapToDouble(c -> range(0, m.getRowDimension()).mapToDouble(r -> v.getData()[c]
-									* m.getData()[c][r]).sum())
+							.mapToDouble(c -> range(0, m.getRowDimension()).mapToDouble(r -> v.toArray()[c]
+									* m.toArray()[c][r]).sum())
 							.toArray();
 
 			return new ArrayVector(result);
@@ -335,7 +335,7 @@ public class MatrixOperations {
 	 * @return the {@link UnaryOperator} that performs the tranpose operation.
 	 *
 	 */
-	public static UnaryOperator<ArrayMatrix> transpose() {
+	public static UnaryOperator<SimpleMatrix> transpose() {
 		return transpose(false);
 	}
 
@@ -349,16 +349,16 @@ public class MatrixOperations {
 	 * 
 	 * @return the {@link UnaryOperator} that performs the tranpose operation.
 	 */
-	public static UnaryOperator<ArrayMatrix> transpose(boolean parallel) {
+	public static UnaryOperator<SimpleMatrix> transpose(boolean parallel) {
 		return m -> {
-			double[][] a = m.getData();
+			double[][] a = m.toArray();
 			IntStream stream = range(0, m.getColumnDimension());
 			stream = parallel ? stream.parallel() : stream;
 
 			double[][] transpose =
 					stream.mapToObj(c -> range(0, a.length).mapToDouble(r -> a[r][c]).toArray())
 							.toArray(double[][]::new);
-			return new ArrayMatrix(transpose);
+			return new SimpleMatrix(transpose);
 		};
 	}
 
@@ -382,9 +382,9 @@ public class MatrixOperations {
 	 * 
 	 * @return the {@link Function} that performs the tranpose operation.
 	 */
-	public static Function<ArrayMatrix, Double> norm(boolean parallel) {
+	public static Function<SimpleMatrix, Double> norm(boolean parallel) {
 		return m -> {
-			double[][] a = m.getData();
+			double[][] a = m.toArray();
 			IntStream stream = range(0, m.getColumnDimension());
 			stream = parallel ? stream.parallel() : stream;
 
@@ -406,9 +406,9 @@ public class MatrixOperations {
 	 * 
 	 * @return the {@link Function} that performs the tranpose operation.
 	 */
-	public static Function<ArrayMatrix, Double> frobeniusNorm(boolean parallel) {
+	public static Function<SimpleMatrix, Double> frobeniusNorm(boolean parallel) {
 		return m -> {
-			double[][] a = m.getData();
+			double[][] a = m.toArray();
 			IntStream stream = range(0, m.getColumnDimension());
 			stream = parallel ? stream.parallel() : stream;
 
@@ -431,7 +431,7 @@ public class MatrixOperations {
 	 * @return the {@link BiFunction} that performs the {@code m^p} power
 	 *         calculation.
 	 */
-	public static BiFunction<ArrayMatrix, Integer, Matrix> power(boolean parallel) {
+	public static BiFunction<SimpleMatrix, Integer, Matrix> power(boolean parallel) {
 		return (m, p) -> {
 			checkNotPositive(VALUE, p);
 			checkNonSquareMatrix(m);
@@ -472,9 +472,9 @@ public class MatrixOperations {
 				}
 			}
 
-			ArrayMatrix[] results = new ArrayMatrix[maxI
+			SimpleMatrix[] results = new SimpleMatrix[maxI
 					+ 1];
-			results[0] = (ArrayMatrix) m.copy();
+			results[0] = (SimpleMatrix) m.copy();
 
 			for (int i = 1; i <= maxI; ++i) {
 				results[i] = multiply(parallel).apply(results[i
@@ -483,7 +483,7 @@ public class MatrixOperations {
 								- 1]);
 			}
 
-			ArrayMatrix result = (ArrayMatrix) m.copy();
+			SimpleMatrix result = (SimpleMatrix) m.copy();
 
 			for (Integer i : nonZeroPositions) {
 				result = multiply(parallel).apply(result, results[i]);
@@ -504,7 +504,7 @@ public class MatrixOperations {
 	 * 
 	 * @return the {@link Function} that performs the tranpose operation.
 	 */
-	public static Function<ArrayMatrix, Double> trace() {
+	public static Function<SimpleMatrix, Double> trace() {
 		return trace(false);
 	};
 
@@ -523,13 +523,13 @@ public class MatrixOperations {
 	 * 
 	 * @return the {@link Function} that performs the tranpose operation.
 	 */
-	public static Function<ArrayMatrix, Double> trace(boolean parallel) {
+	public static Function<SimpleMatrix, Double> trace(boolean parallel) {
 		return (m) -> {
 			checkNonSquareMatrix(m);
 			IntStream stream = range(0, m.getColumnDimension());
 			stream = parallel ? stream.parallel() : stream;
 
-			return stream.mapToDouble(i -> m.getData()[i][i]).sum();
+			return stream.mapToDouble(i -> m.toArray()[i][i]).sum();
 		};
 	}
 }

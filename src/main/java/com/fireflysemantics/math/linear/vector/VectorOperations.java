@@ -68,8 +68,8 @@ public class VectorOperations {
 		return (v1, v2) -> {
 			checkDimensionMismatch(v1, v2);
 			IntStream stream = range(0, v1.getDimension());
-			double[] a1 = v1.getData();
-			double[] a2 = v2.getData();
+			double[] a1 = v1.toArray();
+			double[] a2 = v2.toArray();
 			stream = parallel ? stream.parallel() : stream;
 			return new ArrayVector(stream.mapToDouble(i -> a1[i]
 					+ a2[i]).toArray());
@@ -107,8 +107,8 @@ public class VectorOperations {
 		return (v1, v2) -> {
 			checkDimensionMismatch(v1, v2);
 			IntStream stream = range(0, v1.getDimension());
-			double[] a1 = v1.getData();
-			double[] a2 = v2.getData();
+			double[] a1 = v1.toArray();
+			double[] a2 = v2.toArray();
 			stream = parallel ? stream.parallel() : stream;
 			return new ArrayVector(stream.mapToDouble(i -> a1[i]
 					- a2[i]).toArray());
@@ -146,8 +146,8 @@ public class VectorOperations {
 		return (v1, v2) -> {
 			checkDimensionMismatch(v1, v2);
 			IntStream stream = range(0, v1.getDimension());
-			double[] a1 = v1.getData();
-			double[] a2 = v2.getData();
+			double[] a1 = v1.toArray();
+			double[] a2 = v2.toArray();
 			stream = parallel ? stream.parallel() : stream;
 			return stream.mapToDouble(i -> a1[i]
 					* a2[i]).sum();
