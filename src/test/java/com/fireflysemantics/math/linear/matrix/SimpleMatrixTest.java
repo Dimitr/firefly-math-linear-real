@@ -27,8 +27,8 @@ public class SimpleMatrixTest {
 
 		SimpleMatrix matrix = new SimpleMatrix(data);
 
-		assertSame(data, matrix.getData());
-		assertSame(data[0], matrix.getData()[0]);
-		assertEquals(data[0][0], matrix.getData()[0][0], Double.MIN_VALUE);
+		assertSame(data, matrix.toArray());
+		assertSame(data[0], matrix.toArray()[0]);
+		assertEquals(data[0][0], matrix.toArray()[0][0], Double.MIN_VALUE);
 	}
 }

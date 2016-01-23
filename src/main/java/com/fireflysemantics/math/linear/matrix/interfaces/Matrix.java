@@ -21,7 +21,7 @@ import com.fireflysemantics.math.exception.MathException;
 public interface Matrix {
 
 	/**
-	 * Returns matrix entries as a (newly allocated) two-dimensional array.
+	 * Returns matrix entries as a two-dimensional array.
 	 *
 	 * @return 2-dimensional array of entries.
 	 */

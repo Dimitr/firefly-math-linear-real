@@ -51,11 +51,8 @@ public class SimpleMatrix implements Matrix, Serializable {
 	};
 
 	/**
-	 * Returns matrix entries as a two-dimensional array.
-	 *
-	 * @return 2-dimensional array of entries
+	 * Storage.
 	 */
-	@Getter
 	private double[][] data;
 
 	/**
@@ -75,8 +72,8 @@ public class SimpleMatrix implements Matrix, Serializable {
 	private int columnDimension;
 
 	/**
-	 * Create a new SimpleMatrix with the supplied row and column dimensions. All
-	 * matrix entries will be initialized to their java default of 0d.
+	 * Create a new SimpleMatrix with the supplied row and column dimensions.
+	 * All matrix entries will be initialized to their java default of 0d.
 	 *
 	 * @param rowDimension
 	 *            the number of rows in the new matrix
@@ -160,7 +157,7 @@ public class SimpleMatrix implements Matrix, Serializable {
 		// return new
 		// SimpleMatrix(Arrays.stream(this.getData()).map(double[]::clone).toArray(double[][]::new));
 		double[][] copy =
-				Arrays.stream(this.getData()).map(a -> (double[]) a.clone()).toArray(double[][]::new);
+				Arrays.stream(this.toArray()).map(a -> (double[]) a.clone()).toArray(double[][]::new);
 		return new SimpleMatrix(copy);
 	}
 
