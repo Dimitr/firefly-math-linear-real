@@ -173,8 +173,8 @@ public class MatrixOperations {
 	}
 
 	/**
-	 * Returns the {@link BinaryOperator} that subtracts the {@link SimpleMatrix}
-	 * {@code m2} from the {@link SimpleMatrix} {@code m1}.
+	 * Returns the {@link BinaryOperator} that subtracts the
+	 * {@link SimpleMatrix} {@code m2} from the {@link SimpleMatrix} {@code m1}.
 	 *
 	 * @throws MathException
 	 *             Of type {@code MATRIX_DIMENSION_MISMATCH__SUBTRACTION} if
@@ -187,8 +187,8 @@ public class MatrixOperations {
 	}
 
 	/**
-	 * Returns the {@link BinaryOperator} that subtracts the {@link SimpleMatrix}
-	 * {@code m2} from the {@link SimpleMatrix} {@code m1}.
+	 * Returns the {@link BinaryOperator} that subtracts the
+	 * {@link SimpleMatrix} {@code m2} from the {@link SimpleMatrix} {@code m1}.
 	 *
 	 * @param parallel
 	 *            Whether to perform the operation concurrently.
@@ -363,12 +363,17 @@ public class MatrixOperations {
 	}
 
 	/**
-	 * Returns the
+	 * Returns the {@link Function} that calculates the
 	 * <a href="http://mathworld.wolfram.com/MaximumAbsoluteRowSumNorm.html">
 	 * maximum absolute row sum norm</a> of the matrix.
-	 *
-	 * @return norm
+	 * 
+	 * Example {@code norm().apply(m);}
+	 * 
+	 * @return the {@link Function} that performs the tranpose operation.
 	 */
+	public static Function<SimpleMatrix, Double> norm() {
+		return norm(false);
+	}
 
 	/**
 	 * Returns the {@link Function} that calculates the
@@ -399,12 +404,25 @@ public class MatrixOperations {
 	 * <a href="http://mathworld.wolfram.com/FrobeniusNorm.html"> Frobenius
 	 * norm</a> of the matrix.
 	 * 
+	 * Example {@code frobeniusNorm().apply(m);}
+	 * 
+	 * @return the {@link Function} that performs the operation.
+	 */
+	public static Function<SimpleMatrix, Double> frobeniusNorm() {
+		return frobeniusNorm(false);
+	}
+
+	/**
+	 * Returns the {@link Function} that calculates the
+	 * <a href="http://mathworld.wolfram.com/FrobeniusNorm.html"> Frobenius
+	 * norm</a> of the matrix.
+	 * 
 	 * Example {@code frobeniusNorm(true).apply(m);}
 	 * 
 	 * @param parallel
 	 *            Whether to perform the operation concurrently.
 	 * 
-	 * @return the {@link Function} that performs the tranpose operation.
+	 * @return the {@link Function} that performs the operation.
 	 */
 	public static Function<SimpleMatrix, Double> frobeniusNorm(boolean parallel) {
 		return m -> {
@@ -421,6 +439,23 @@ public class MatrixOperations {
 	/**
 	 * Returns the {@link BiFunction} that multiplies {@code m} with itself
 	 * {@code p} times}.
+	 * 
+	 * Example {@code power().apply(m, 2);}
+	 * 
+	 * @throws MathException
+	 *             Of type {@code NOT_POSITIVE_EXCEPTION} if {@code p < 0}
+	 * 
+	 * @return the {@link BiFunction} that performs the operation.
+	 */
+	public static BiFunction<SimpleMatrix, Integer, Matrix> power() {
+		return power(false);
+	}
+
+	/**
+	 * Returns the {@link BiFunction} that multiplies {@code m} with itself
+	 * {@code p} times}.
+	 * 
+	 * Example {@code power().apply(m, 2);}
 	 *
 	 * @param parallel
 	 *            Whether to perform the operation concurrently.
