@@ -106,8 +106,8 @@ public class MatrixOperationsTest {
 		SimpleMatrix am2 = new SimpleMatrix(a2);
 		SimpleMatrix am3 = new SimpleMatrix(a3);
 
-		SimpleMatrix resultA1A2 = multiply(true).apply(am1, am2);
-		SimpleMatrix resultA1A3 = multiply(true).apply(am1, am3);
+		SimpleMatrix resultA1A2 = multiply().apply(am1, am2);
+		SimpleMatrix resultA1A3 = multiply().apply(am1, am3);
 
 		assertTrue(Arrays.deepEquals(resultA1A2.toArray(), expectedA1A2));
 		assertTrue(Arrays.deepEquals(resultA1A3.toArray(), expectedA1A3));
@@ -119,7 +119,7 @@ public class MatrixOperationsTest {
 		SimpleMatrix m = new SimpleMatrix(new double[][] { { 0d, 3d, 5d }, { 5d, 5d, 2d } });
 		double[] expected = { 27, 41 };
 
-		ArrayVector result = operate(false).apply(m, v);
+		ArrayVector result = operate().apply(m, v);
 		assertTrue(Arrays.equals(result.toArray(), expected));
 	}
 
@@ -129,18 +129,32 @@ public class MatrixOperationsTest {
 		SimpleMatrix m = new SimpleMatrix(new double[][] { { 1d, 1d, 1d }, { 2d, 2d, 2d }, { 3d, 3d, 3d } });
 		double[] expected = { 6, 12, 18 };
 
-		ArrayVector result = operate(false).apply(m, v);
+		ArrayVector result = operate().apply(m, v);
 		assertTrue(Arrays.equals(result.toArray(), expected));
 	}
 
 	@Test
 	public void testNorm() {
 		double[][] data = { { 1, -7 }, { -2, -3 } };
-		double result = norm(false).apply(new SimpleMatrix(data));
+		double result = norm().apply(new SimpleMatrix(data));
 		assertEquals(10d, result, Double.MIN_VALUE);
 
 		SimpleMatrix m = new SimpleMatrix(new double[][] { { -100 } });
-		result = MatrixOperations.norm(false).apply(m);
+		result = MatrixOperations.norm().apply(m);
+		assertEquals(100d, result, Double.MIN_VALUE);
+
+	}
+
+	@Test
+	public void testFrobeniusNorm() {
+		double[][] data = { { 1, -7 }, { -2, -3 } };
+		double result = MatrixOperations.frobeniusNorm(false).apply(new SimpleMatrix(data));
+		System.out.println(result);
+		assertEquals(7.937253933193772, result, 100
+				* Double.MIN_VALUE);
+
+		SimpleMatrix m = new SimpleMatrix(new double[][] { { -100 } });
+		result = MatrixOperations.frobeniusNorm(false).apply(m);
 		assertEquals(100d, result, Double.MIN_VALUE);
 
 	}
@@ -148,7 +162,7 @@ public class MatrixOperationsTest {
 	@Test(expected = MathException.class)
 	public void testNorm_NO_DATA_EXCEPTION() {
 		SimpleMatrix m = new SimpleMatrix(new double[][] { {} });
-		norm(false).apply(m);
+		norm().apply(m);
 	}
 
 	@Test
